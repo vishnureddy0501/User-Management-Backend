@@ -1,0 +1,71 @@
+Things to learn:
+----------------
+1. Node js event loop understanding. 
+
+what is node js?
+---------------
+it is neither language nor framework.
+ it is runtime environment for executing javascript on the server side.
+ node js -> runtime environment
+ express js -> framework built on top of nodejs
+
+ features of node js:
+ --------------------
+ single threaded, asynchronous,
+
+ what is single threaded programming?
+ ------------------------------------
+ with only one single thread we can execute our tasks.
+ with single threaded we can do synchronous programming, asynchronous programming.  (both we can do)
+
+
+ synchronous programming:
+ ------------------------
+ serial execution of tasks. (T1 is done then we go to T2. once T2 is done we go to T3. and so on...)
+ it is a blocking approach. Tn has to wait until T1, T2...Tn-1 are completed.
+
+ synchronous programming vs single threaded programming:
+ -------------------------------------------------------
+ synchronous programming -> serial execution
+ single threaded programming -> only one thread is responsible for executing tasks.
+
+ multithreaded programming:
+ --------------------------
+ multiple threads are there to handle the tasks. parallel execution of tasks.
+
+ thread1 handles task1
+ thread2 handles task2....
+
+ what is asynchronous programming:
+ ----------------------------------
+ In node js asynchronous flow can be achieved by single threaded, non-blocking, event driven architecture.
+ In javascript asynchronous programming can also be achieved by async-await, promises, web APIs like (settimeout, setinterval).
+ Thread: Thread1 (single Threaded).
+ tasks: T1, T2, ...
+
+ Thread1 initiates T1. Thread1 don't wait till T1 is completed.
+ thread2 initiates T2. 
+ .
+ .
+ .
+ and so on.
+
+ if T2 is a small task and it is completed. then T2 emits an event to Thread1. 
+ Then Thread1 stops what ever it is doing and it comes to T2 and delivers the result to api. then Thread1 continues its work. 
+
+
+
+
+ How Node is a runtime environment on the serve side? what is v8?
+ ----------------------------------------------------------------
+ client side:
+ -----------
+ every browser contains javascript engine. chrome browser contains v8 engine to execute javascript on the client side.
+ server side:
+ ------------
+ v8 is a javascript engine for execute javascript on server side.
+
+
+ client side          ------------                 server side 
+ chrome browser       -------------                  Node js
+ v8 engine for executing javascript -----     v8 engine for executing javascript

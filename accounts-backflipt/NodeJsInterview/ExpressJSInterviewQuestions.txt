@@ -1,0 +1,127 @@
+advantages of express JS?
+-------------------------
+Middleware support, routing, Template engine integration(for generating html content on server side)
+
+import express from "express";
+const app = express();
+const port = 5000;
+app.listen(port, ()=>{
+    console.log("listening at port", port);
+});
+
+what is Middleware and how to use it?
+----------------------------------------
+Middleware is a function that handles HTTP requests, performs operations and passes the control to next Middleware.
+
+                              next()                    next()                        next()
+client --------> Middleware1-----------> Middleware2 -----------> ... MiddlewareN ----------------> Requested API
+
+eg: 
+
+import express from "express";
+const app = express();
+
+const myMiddleware = (req, res, next) => {
+    // logic to perform some operation like checking if session exists.
+    next(); //calling the next Middleware
+}
+
+app.use(myMiddleware); // app.use is used to call the Middleware. it is executed for all the routes that has matching route below the code of this middleware.
+
+what happens if next() is not called in the Middleware?
+-------------------------------------------------------
+if you don't call next() in a middleware function in Express.js, the execution of that request will stop after the middleware is executed.
+    Request Stalls: The request will be left hanging, and the server will not move on to the next middleware or route handler. The client (browser or API consumer) will not receive a response, and the request will eventually time out.
+    No Response Sent: If your middleware does not end the request-response cycle by either sending a response with res.send(), res.json(), res.end(), or similar methods, and it also doesn't call next(), then Express.js has no instructions on what to do next. As a result, the client will never receive a response.
+    Potential Server Hang: This can cause the server to hang indefinitely for that particular request, leading to poor user experience and potential memory leaks or resource exhaustion if many requests get stuck this way.
+
+import express from "express";
+const app = express();
+
+const myMiddleware = (req, res, next) => {
+    console.log("Middleware executed");
+    // next();  // Next is not called here.
+}
+
+app.use(myMiddleware);
+
+app.get("/", (req, res) => {
+    res.send("Hello World");
+});
+
+app.listen(3000, () => console.log("Server running on port 3000"));
+
+How to use middleware for a specific route?
+-------------------------------------------
+To use middleware for a specific route in Express.js, you can pass the middleware function as an argument to the route handler. Here's how you can do it:
+Example: Applying Middleware to a Specific Route
+
+import express from "express";
+const app = express();
+
+const myMiddleware = (req, res, next) => {
+    console.log("Middleware executed for this route");
+    // Perform some operation
+    next(); // Call next() to proceed to the route handler
+};
+
+// Apply middleware to a specific route
+app.get("/specific-route", myMiddleware, (req, res) => {
+    res.send("Hello from the specific route with middleware!");
+});
+
+// Define another route without the middleware
+app.get("/another-route", (req, res) => {
+    res.send("Hello from another route without middleware.");
+});
+
+app.listen(3000, () => console.log("Server running on port 3000"));
+
+    Applying Middleware to a Specific Route:
+        The middleware is applied specifically to the route "/specific-route" by passing it as an argument before the route handler.
+        When a request is made to "/specific-route", the middleware runs first, then the route handler executes and sends the response.
+
+    Route Without Middleware:
+        The route "/another-route" does not use the middleware, so it directly executes the route handler and sends the response without any middleware processing.
+
+Key Points:
+
+You can apply multiple middleware functions to a route by chaining them before the route handler.
+
+Example with Multiple Middlewares:
+app.get("/specific-route", middleware1, middleware2, (req, res) => {
+    res.send("Hello from the specific route with multiple middlewares!");
+});
+
+In this example, middleware1 and middleware2 will be executed in order before the final route handler is called.
+
+what are types of middlewares?
+1. application level middleware
+2. router level middleware
+3. built-in middleware // like cors, static file handling
+
+what is rest and restful apis?
+-------------------------------
+REST(Representational State Transfer): set of guidelines for creating API's
+Restful API's: it is a service which follows REST guidelines.
+
+Important Rest guidelines:
+----------------------------
+1. client server architecture. (client should be separate and server should be separate)
+2. api should be stateless. (api should respond to the request. The api response should depends only on the payload. )
+3. cachable
+
+sometimes the api receives the same request multiple times. the response of these kind of request must be cachable.
+
+JWT Token:
+----------
+When you log in, the server generates a JWT with your information in the payload.
+The server sends this token back to your client (like a web browser).
+Every time you make a request to the server, you include this token (usually in the request header).
+The server checks the token’s signature to ensure it’s valid and hasn’t been altered.
+If the token is valid, the server knows you are authenticated and can grant you access to the requested resources.
+
+Why It’s Useful:
+
+    Stateless: The server doesn’t need to store session information, which makes JWTs scalable and efficient for handling large numbers of users.
+    Secure: The token is signed, so if someone tries to change the information in it, the server will know.
