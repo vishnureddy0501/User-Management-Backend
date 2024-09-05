@@ -1,3 +1,10 @@
+HTTP methods:
+----------------
+get
+post
+put (updating multiple attributes)
+patch (updating single attribute)
+delete
 
 nodemon.json
 ------------

@@ -1,0 +1,78 @@
+inserting object to collection:
+-------------------------------
+const user = await User.create({   // use create
+  name: "John Doe",
+  email: "john@example.com",
+});
+
+find in mongoose:
+---------------------------
+    let result = await User.find({}).toArray(); // no need to use toArray when you are working with mongoose.
+
+    let result = await Users.find({}); // this syntax is fine. works perfectly 
+
+    const existingUser = await Users.findOne({ email: "vishnu@gmail.com", password : "password@123" });
+
+    const id = "6406ca2ef93e1f55fc954348";
+    const findUserById = await Users.findById(id);
+
+find object and update:
+------------------------
+
+    const id = "6406ca2ef93e1f55fc954348";
+    const data = await Users.findById(id);
+    data.email = "sabbu123@backflipt.com";
+
+    const findUserById = await Users.findByIdAndUpdate(id, data);
+    console.log(findUserById);
+
+find and delete:
+----------------
+  const result = Users.findOneAndDelete({ email: "vishnureddy8980@gmail.com" });
+
+  if(!result) {
+    res.status(400).send((message: "usernotfound"));
+  }
+  res.status(200).send((message: "deletion successful"));
+
+
+advantages of using mongoose:
+----------------------------- 
+1. Schema Validation
+
+2. Middleware Support
+
+    Pre/Post Hooks: Mongoose supports middleware (pre and post hooks), allowing you to run logic before and after certain operations, such as creating, updating, or deleting a document.
+    Business Logic: You can use middleware to handle tasks like hashing passwords, sending emails, or logging changes to the database.
+
+userSchema.pre('save', function (next) {
+  console.log('A user is being saved:', this);
+  next();
+});
+
+// The pre-save middleware will be triggered on create()
+User.create({ name: 'John Doe', email: 'john@example.com' });
+
+5. Automatic Timestamps
+
+ Timestamps: Mongoose can automatically add createdAt and updatedAt fields when creating or updating documents if timestamps is enabled in the schema.
+const userSchema = new mongoose.Schema({
+  name: String,
+}, { timestamps: true });
+
+// Automatically adds createdAt and updatedAt fields
+User.create({ name: 'Bob' });
+
+6. Error Handling
+
+    Better Error Messages: When using create(), Mongoose provides more helpful error messages, especially in cases of validation errors, making it easier to debug issues.
+    Unique Constraints: If you have a unique field (e.g., email), Mongoose handles the uniqueness validation and provides meaningful errors if the uniqueness is violated.
+    
+userSchema.statics.findByEmail = function (email) {
+  return this.findOne({ email });
+};
+
+// Now you can use this custom method with Mongoose's create()
+const user = await User.create({ name: 'David', email: 'david@example.com' });
+const foundUser = await User.findByEmail('david@example.com');
+

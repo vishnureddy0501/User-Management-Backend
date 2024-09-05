@@ -7,10 +7,13 @@ import { fileURLToPath } from "url";
 import requestip from "request-ip";
 import { dirname } from "path";
 import cookieParser from "cookie-parser";
+import jwt from "jsonwebtoken";
 import session from "express-session";
+import Users from "./schemas/userSchema.js";
 import { hashPassword, comparePassword } from "./modules/encrypt_decrypt.js";
 import Admin from "./routes/admin.js";
 import Login_Register from "./routes/login_register.js";
+import jwtFile from "./routes/jwt.js";
 import appAuth from "./routes/appAuth.js";
 import dotenv from "dotenv";
 import multer from "multer";
@@ -27,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
+const oneDay = 1000 * 60 * 60 * 24;
 // app.use(
 //   session({ secret: "vishnureddy05011", saveUninitialized: true, resave: true })
 // );
@@ -77,6 +81,18 @@ connection.connectToDb((err) => {
   _db = connection.getDb();
 });
 */
+
+const handleErrors = (err) => {
+  console.log(err.message);
+if(err.message.includes('User validation failed')) {
+    let errors = {email: '', password: ''};
+    Object.values(err.errors).forEach((item) => {
+      errors[item.path] = item.properties.message;
+    });
+    return errors;
+  }
+};
+
 
 const check_session = async (req, res, next) => {
   //check weather session exist in database and it is true.
@@ -319,6 +335,7 @@ app.get("/test/", (req, res) => {});
 app.use(appAuth);
 app.use("/", Admin);
 app.use("/", Login_Register);
+app.use("/", jwtFile);
 
 
 // fall back route. if the routes not matches. it will fallback to this.

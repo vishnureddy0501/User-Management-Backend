@@ -1,0 +1,17 @@
+Headers: means meta info
+--------
+
+cookies vs local storage:
+------------------------
+Cookies: Essential for session management and scenarios where data needs to be automatically sent with HTTP requests.
+Local Storage: Useful for storing larger amounts of data on the client side, but lacks built-in expiry and automatic request sending.
+Learning Both: While you can often use local storage for simple data storage needs, understanding cookies is important for handling more complex web application requirements.
+
+cookies: accessible from any window
+            sent with http requests
+local storage: accessible from any window
+session storage: accessible from same tab
+
+local storage:
+--------------
+loca
