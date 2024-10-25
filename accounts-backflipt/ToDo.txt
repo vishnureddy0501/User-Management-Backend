@@ -1,3 +1,10 @@
+what to learn with mongoose:
+----------------------------
+write schema, required fields, CRUD operations.
+remaining all validations (write in the route itself).
+
+
+
 file manipulation in node.js
 storing files to s3 bucket.
 learning express js end to end.

@@ -13,6 +13,7 @@ import Users from "./schemas/userSchema.js";
 import { hashPassword, comparePassword } from "./modules/encrypt_decrypt.js";
 import Admin from "./routes/admin.js";
 import Login_Register from "./routes/login_register.js";
+import MiddlewareLearning from './routes/MiddlewareLearning.js'
 import jwtFile from "./routes/jwt.js";
 import appAuth from "./routes/appAuth.js";
 import dotenv from "dotenv";
@@ -69,6 +70,7 @@ const my_function = async (req, res, next) => {};
 app.get("/", function (req, res) {
   // if the person is not logged in and hitting some route. from the backend only you can write some middleware and redirect to login page
   // res.sendFile(__dirname + "/static/login.html");
+  res.redirect("http://localhost:8080/");
 });
 
 /*
@@ -94,20 +96,25 @@ if(err.message.includes('User validation failed')) {
 };
 
 
-const check_session = async (req, res, next) => {
-  //check weather session exist in database and it is true.
-  let result = await _db
-    .collection("sessions")
-    .find({
-      username: req.username,
-      session_id: req.session_id,
+const checkSession = async (req, res, next) => {
+  try {
+    const { username, session_id } = req.params;
+    const session = await _db.collection("sessions").findOne({
+      username: username,
+      session_id: session_id,
       active: "true",
-    })
-    .toArray();
-  if (result.length != 0) {
-    res.send(req.data);
-  } else {
-    res.send({ data: "no session" });
+    });
+
+    if (!session) {
+      return res.status(401).json({ error: "Invalid or expired session" });
+    }
+    // Session is valid, attach relevant session information to the request
+    req.username = username;
+    req.session_id = session_id;
+    next(); // Move to the next middleware or route handler
+  } catch (error) {
+    console.error("Session check failed:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -137,7 +144,7 @@ app.get(
     req.data = result;
     next();
   },
-  check_session
+  checkSession
 );
 
 app.post(
@@ -157,7 +164,7 @@ app.post(
     req.data = "updated";
     next();
   },
-  check_session
+  checkSession
 );
 
 app.post(
@@ -177,7 +184,7 @@ app.post(
     req.data = "successful";
     next();
   },
-  check_session
+  checkSession
 );
 
 app.post(
@@ -199,7 +206,7 @@ app.post(
     req.data = "successful";
     next();
   },
-  check_session
+  checkSession
 );
 
 app.get(
@@ -221,7 +228,7 @@ app.get(
     req.data = "successful";
     next();
   },
-  check_session
+  checkSession
 );
 
 app.get(
@@ -243,7 +250,7 @@ app.get(
     req.data = "successful";
     next();
   },
-  check_session
+  checkSession
 );
 
 app.get(
@@ -263,7 +270,7 @@ app.get(
     req.data = final_res;
     next();
   },
-  check_session
+  checkSession
 );
 
 app.get(
@@ -284,7 +291,7 @@ app.get(
     req.data = final_res;
     next();
   },
-  check_session
+  checkSession
 );
 
 app.get(
@@ -307,7 +314,7 @@ app.get(
     req.data = "updated";
     next();
   },
-  check_session
+  checkSession
 );
 
 app.get("/health", (req, res) => {
@@ -332,14 +339,15 @@ app.get("/api/upload", upload.single("file"), (req, res) => {
 
 app.get("/test/", (req, res) => {});
 
+
 app.use(appAuth);
 app.use("/", Admin);
 app.use("/", Login_Register);
 app.use("/", jwtFile);
+app.use("/", MiddlewareLearning);
 
 
-// fall back route. if the routes not matches. it will fallback to this.
-// keep it at the end of all routes.
+// fall back route. if the routes not matches. it will fallback to this. keep it at the end of all routes.
 app.get("*", (req, res) => {
   res.status(200).send("url not found");
 });

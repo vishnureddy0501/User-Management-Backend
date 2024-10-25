@@ -1,3 +1,20 @@
+1. Route (URL) Parameters
+    const username = req.params.username; // Access the 'username' parameter
+
+2. Query Parameters
+    const username = req.query.username; // Access the 'username' query parameter
+
+3. Body Parameters
+    const username = req.body.username; // Access the 'username' from the body
+    const role = req.body.role;    
+
+check the session first and then do the operations:
+---------------------------------------------------
+app.get("/update_role/:username/:role/:updatedby/:session_id", checkSession, async (req, res) => {
+    // block of code
+    }
+);
+
 advantages of express JS?
 -------------------------
 Middleware support, routing, Template engine integration(for generating html content on server side)
@@ -109,9 +126,7 @@ Important Rest guidelines:
 ----------------------------
 1. client server architecture. (client should be separate and server should be separate)
 2. api should be stateless. (api should respond to the request. The api response should depends only on the payload. )
-3. cachable
-
-sometimes the api receives the same request multiple times. the response of these kind of request must be cachable.
+3. cachable (sometimes the api receives the same request multiple times. the response of these kind of request must be cachable.)
 
 JWT Token:
 ----------

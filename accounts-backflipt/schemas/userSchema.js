@@ -16,7 +16,7 @@ const userSchema = new Schema(
       minLength: [6, "minimum password length is 6"],
     }
   },
-  { collection: "users" }
+  { collection: "users", strict: false }
 );
 
 // these are called mongoose hooks

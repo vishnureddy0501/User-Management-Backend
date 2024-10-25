@@ -1,3 +1,7 @@
+How to sart server:
+------------------
+npm run start
+
 HTTP methods:
 ----------------
 get

@@ -1,0 +1,42 @@
+1. res.send()
+    Usage: res.send() can send a string, a Buffer, or an object.
+
+    res.send('Hello, World!');
+    res.send({ message: 'Hello, World!' });
+
+2. res.json()
+
+    Usage: res.json() takes an object or array as an argument and converts it to JSON format.
+
+    res.json({ message: 'Hello, World!' }); // Sends a JSON response
+
+    Notes: res.json() is a good choice when you want to explicitly specify JSON format in the response. It also sets the Content-Type header to application/json for you.
+
+3. res.status()
+
+    Usage: Call res.status() with the desired status code (e.g., 200 for success, 404 for not found) before calling res.send() or res.json().
+
+    res.status(404).send('Page not found'); // Sets 404 status and sends text
+    res.status(201).json({ message: 'Resource created' }); // Sets 201 status and sends JSON
+
+    Notes: Setting the status code explicitly is essential for proper error handling and RESTful API standards.
+
+4. res.sendStatus()
+
+    Purpose: Sets the HTTP status code and sends a response with a short description of the status (like "Not Found" for 404).
+    Usage: Use res.sendStatus() with an HTTP status code.
+
+    res.sendStatus(404); // Sends "404 Not Found" and ends the response
+    res.sendStatus(500); // Sends "500 Internal Server Error" and ends the response
+
+    Notes: This is a shorthand for setting the status code and sending a basic response message in one step.
+
+5. res.redirect()
+
+    Purpose: Redirects the client to a different URL.
+    Usage: Use res.redirect() with the URL where you want to redirect the client.
+
+    res.redirect('/new-url'); // Redirects to a different route
+    res.redirect(301, '/new-url'); // Redirects with a specific status code (301 for permanent)
+
+    Notes: Useful for URL routing and forwarding users to other pages.

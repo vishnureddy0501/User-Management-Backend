@@ -2,6 +2,12 @@ Things to learn:
 ----------------
 1. Node js event loop understanding. 
 
+why javascript is synchronous and node js is asynchronous?
+----------------------------------------------------------
+javascript is synchronous because the they interuption to the call stack never happens.
+
+node js is asynchronous because other task can interupt the currently executing task and take control.
+
 what is node js?
 ---------------
 it is neither language nor framework.
