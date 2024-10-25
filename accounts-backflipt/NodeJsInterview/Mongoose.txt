@@ -17,7 +17,6 @@ find in mongoose:
     const id = "6406ca2ef93e1f55fc954348";
     const findUserById = await Users.findById(id);
 
-
 find object and update:
 ------------------------
 1. using findByIdAndUpdate
@@ -51,6 +50,13 @@ find object and update:
       }
     });
 
+    what is the use of new: true ?
+    --------------------------------
+    Without { new: true }
+      findOneAndUpdate returns the document as it was before the update.
+    With { new: true }
+      findOneAndUpdate returns the updated data
+
 3. Using updateOne and updateMany for Partial Updates
 
   If you only need to update specific fields, updateOne and updateMany are great for this.
@@ -73,6 +79,16 @@ find and delete:
   If you want to delete a document but don't need the deleted document's details, deleteOne and deleteMany are simpler alternatives to findOneAndDelete.
     await User.deleteOne({ email: "vishnureddy8980@gmail.com" });
     await User.deleteMany({ isActive: false });
+
+3. findByIdAndDelete
+  const id = "6406ca2ef93e1f55fc954348"; // Example document ID
+  const deletedUser = await User.findByIdAndDelete(id);
+  if (deletedUser) {
+    console.log("User deleted successfully:", deletedUser);
+  } else {
+    console.log("User not found");
+  }
+
 
 advantages of using mongoose:
 ----------------------------- 
