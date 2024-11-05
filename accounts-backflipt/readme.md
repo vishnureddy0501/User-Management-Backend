@@ -1,6 +1,6 @@
 How to sart server:
 ------------------
-npm run start
+npm run dev
 
 HTTP methods:
 ----------------
