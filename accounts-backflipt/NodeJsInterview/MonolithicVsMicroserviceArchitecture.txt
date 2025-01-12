@@ -1,0 +1,42 @@
+monolithic Architecture:
+------------------------
+authentication, payments, listings all clubbed inside one repository.
+Everything is a single unit. Everything is deployed as one webservice.
+
+tightly coupled.
+
+disadvantages of monolithic Architecture:
+-----------------------------------------
+1. Deployment: if you made any changes to code in authentication then you have to deploy the whole application. it is a disadvantage because for a small change in authentication, you have to deploy whole application.
+2. Scaling Limitations: if more users are hitting our logging page. then we have to scale up the login up.
+    But with monolithic Architecture, we can't scale up only authentication routes. we have to scale up the whole application.
+3. Dependency issues: 
+    if module like sales engagement needs quill.js version 1
+    if module like forecasts needs quill.js verstion 2
+
+    it is not possible to have both quill.js version 1, version 2 in monolithic Architecture
+
+
+Microservice Architecture:
+--------------------------
+authentication, payments, listings.. all divided into separate repositories.
+
+advantages: independent development, separate codebase, independent development, loosely coupled. 
+-----------
+1. Deployment: if we make changes to authentication then we will deploy only authentication. No need to deploy other modules.
+2. Scaling: if we have traffic to a particular service then we will scale up only that service
+3. Dependency Packages: we can use flexible Dependencies in our own modules.
+4. Technology flexibitily: 
+    you can write authentication in python, payments in express.js, listings in java.
+
+How do Microservices interact with each other?
+----------------------------------------------
+Synchronous communication Through Api calls
+Asynchronous communication Through message brokers
+
+
+disadvantages of Microservice Architecture:
+-------------------------------------------
+Cost, Management Overhead, Complex to develop
+
+Small startups don't use Microservice Architecture.

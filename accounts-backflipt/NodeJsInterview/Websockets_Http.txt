@@ -1,0 +1,30 @@
+Websocket:
+---------
+Persistent bidirectional full duplex connection b/w client and server.
+
+once the websocket is setted up then client send send data to server or server can send data to client.
+
+1. Statefull
+2. bidirectional
+3. Full-Duplex:
+        data transmission can occur in both directions. both directions at same time as well
+
+
+HTTP:
+-----
+1. Unidirectional: at a time either server can send data or client can send data.
+                    bidirectional data transfer at a time is not possible
+
+2. Stateless: 
+    HTTP is considered stateless because each HTTP request made by a client to a server is independent of previous requests.
+
+3. Half-Duplex:
+    data transmission can occur in both directions, but only one direction at a time
+
+How State Can Be Managed in HTTP
+--------------------------------
+Although HTTP is stateless, state management can be implemented on top of HTTP when needed:
+
+Cookies: The server sends small pieces of data to the client, which the client stores and sends back with subsequent requests.
+Sessions: The server assigns a session ID (usually stored as a cookie) to the client. The server then associates this ID with stored session data.
+Tokens: In modern systems (e.g., REST APIs), tokens (like JWTs) are used to encode client state or authentication information and are sent with each request.

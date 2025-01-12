@@ -1,0 +1,48 @@
+what is api key?
+---------------
+An API key is a unique code that is used to access an API securely.
+
+Key Features of an API Key
+Authentication: Ensures the request is coming from a trusted source.
+Access Control: Restricts access to specific endpoints, users, or features.
+
+How It Works
+------------
+A developer registers an application with the API provider and obtains an API key.
+api key is sent to backend along with api request.
+The API server verifies the key before processing the request.
+
+eg: 
+
+Suppose you’re using a weather API:
+GET https://api.weather.com/v3/weather/forecast?location=London&apiKey=YOUR_API_KEY
+Here, YOUR_API_KEY is the API key, and it allows the server to verify that you have access to the weather data.
+
+Best Practices:
+
+Keep It Secret
+Change the key periodically to minimize security risks.
+Use Environment Variables: Store API keys securely in server-side environment variables, not hardcoded in the source code.
+
+Where Are API Keys Commonly Used?
+Third-party APIs: Accessing services like Google Maps, OpenWeather, or payment gateways, getting stock data.
+
+Custom APIs: Protecting your own API from unauthorized access.
+
+To protect your custom API using an API key, you can follow these steps:
+-----------------------------------------------------------------------
+1. Generate API Keys
+    Create a unique API key for each user or client.
+2. Store API Keys Securely
+    Save the generated keys in a secure database along with information about the user or client.
+    Hash the keys (like passwords) to prevent exposure. Use libraries like bcrypt or SHA-256.
+3. Require API Key for Access
+    Add a middleware or logic in your API to check for an API key in the request headers, query parameters, or body.
+4. Set Permissions and Quotas
+    Assign permissions to each API key (e.g., read-only, admin).
+    Limit the number of requests per key to prevent abuse (rate limiting).
+5. Monitor and Change Keys
+
+6. Use HTTPS
+    Ensure all API communications occur over HTTPS to prevent interception of API keys.
+    This approach adds a layer of protection and ensures only authorized users can access your API.
