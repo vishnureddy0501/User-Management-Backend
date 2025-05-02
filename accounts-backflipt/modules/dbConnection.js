@@ -11,7 +11,7 @@ const connection = {
         return callback();
       })
       .catch((error) => {
-        console.error(error);
+        console.error(error, "error occured");
         return callback(error);
       });
   },
